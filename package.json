@@ -1,7 +1,16 @@
 {
   "name": "chronos-monorepo",
+  "description": "Deterministic Simulation Testing (DST) framework for Node.js & TypeScript",
   "private": true,
   "type": "module",
+  "homepage": "https://docs-site-chronos.vercel.app/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sx4im/chronos.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sx4im/chronos/issues"
+  },
   "scripts": {
     "build": "pnpm -r build",
     "test": "vitest run",

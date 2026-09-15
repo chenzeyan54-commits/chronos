@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Chronos Documentation & Architecture
+    url: https://docs-site-chronos.vercel.app/
+    about: Read our comprehensive guides on Deterministic Simulation Testing, DI, and Replay.
+  - name: Security Vulnerability Reporting
+    url: https://github.com/sx4im/chronos/security/policy
+    about: Please report security-sensitive issues following our security policy (SECURITY.md).

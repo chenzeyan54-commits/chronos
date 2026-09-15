@@ -4,8 +4,9 @@
 
 [![npm version](https://img.shields.io/npm/v/@sx4im/chronos-core.svg?color=indigo)](https://www.npmjs.com/package/@sx4im/chronos-core)
 [![npm downloads](https://img.shields.io/npm/dm/@sx4im/chronos-vitest.svg?color=blue)](https://www.npmjs.com/package/@sx4im/chronos-vitest)
+[![CI status](https://github.com/sx4im/chronos/actions/workflows/ci.yml/badge.svg)](https://github.com/sx4im/chronos/actions/workflows/ci.yml)
 [![determinism guard](https://img.shields.io/badge/determinism%20guard-passing-brightgreen)](./packages/core/test/determinism.test.ts)
-[![CI status](https://img.shields.io/badge/CI-passing-brightgreen)](./.github/workflows/ci.yml)
+[![good first issues](https://img.shields.io/github/issues/sx4im/chronos/good%20first%20issue?color=7057ff&label=good%20first%20issues)](https://github.com/sx4im/chronos/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vitest](https://img.shields.io/badge/Vitest-native-FCC72B?logo=vitest&logoColor=black)](https://vitest.dev/)
@@ -315,6 +316,12 @@ Please read **[CONTRIBUTING.md](./CONTRIBUTING.md)** before submitting pull requ
 > **The Golden Rule of Chronos**: Determinism is the product. Any change that causes a given seed to generate a different execution trace is considered a breaking bug.
 
 Review our **[Code of Conduct](./CODE_OF_CONDUCT.md)** for community guidelines.
+
+### Contributors
+
+Made with [contrib.rocks](https://contrib.rocks).
+
+[![Contributors](https://contrib.rocks/image?repo=sx4im/chronos)](https://github.com/sx4im/chronos/graphs/contributors)
 
 ---
 

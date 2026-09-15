@@ -12,9 +12,13 @@
     "react"
   ],
   "author": "sx4im <msaimshafique4664@gmail.com>",
+  "homepage": "https://docs-site-chronos.vercel.app/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sx4im/chronos.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sx4im/chronos/issues"
   },
   "license": "MIT",
   "scripts": {
