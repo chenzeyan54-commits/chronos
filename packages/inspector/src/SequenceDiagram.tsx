@@ -27,6 +27,65 @@ const PAD_R = 24;
 const PAD_B = 24;
 const LANE_W = 110;
 
+function formatMermaidDiagram(events: TraceEvent[], nodes: string[]): string {
+  const lines: string[] = ["sequenceDiagram", "    autonumber"];
+
+  for (const node of nodes) {
+    // Sanitize participant name or wrap if necessary
+    lines.push(`    participant ${node}`);
+  }
+
+  for (const ev of events) {
+    switch (ev.kind) {
+      case "send": {
+        const payloadStr =
+          typeof ev.payload === "object" && ev.payload !== null
+            ? JSON.stringify(ev.payload)
+            : String(ev.payload ?? "");
+        const summary = payloadStr.length > 30 ? `${payloadStr.slice(0, 27)}...` : payloadStr;
+        const label = summary ? `send: ${summary}` : "send";
+        lines.push(`    ${ev.from}->>${ev.to}: ${label.replace(/[:#]/g, " ")}`);
+        break;
+      }
+      case "deliver": {
+        const payloadStr =
+          typeof ev.payload === "object" && ev.payload !== null
+            ? JSON.stringify(ev.payload)
+            : String(ev.payload ?? "");
+        const summary = payloadStr.length > 30 ? `${payloadStr.slice(0, 27)}...` : payloadStr;
+        const label = summary ? `deliver: ${summary}` : "deliver";
+        lines.push(`    ${ev.from}-->>${ev.to}: ${label.replace(/[:#]/g, " ")}`);
+        break;
+      }
+      case "crash": {
+        lines.push(`    Note over ${ev.nodeId}: Node crashed`);
+        break;
+      }
+      case "restart": {
+        lines.push(`    Note over ${ev.nodeId}: Node restarted`);
+        break;
+      }
+      case "partition": {
+        const groupStrs = ev.groups.map((g) => g.join(", ")).join(" | ");
+        lines.push(`    Note over ${nodes.join(",")}: Partition: ${groupStrs}`);
+        break;
+      }
+      case "heal": {
+        lines.push(`    Note over ${nodes.join(",")}: Partition healed`);
+        break;
+      }
+      case "invariant-violation": {
+        lines.push(`    Note over ${nodes.join(",")}: Violation: ${ev.name.replace(/[:#]/g, " ")}`);
+        break;
+      }
+      default:
+        break;
+    }
+  }
+
+  return lines.join("\n");
+}
+
 export function SequenceDiagram({
   events,
   nodes,
@@ -35,9 +94,21 @@ export function SequenceDiagram({
   onSelect,
 }: SequenceDiagramProps): JSX.Element {
   const [vScale, setVScale] = useState(3); // px per virtual ms (vertical=time)
+  const [copied, setCopied] = useState(false);
   const { tMin, tMax } = useMemo(() => timeBounds(events), [events]);
   const flows = useMemo(() => pairMessages(events), [events]);
   const spans = useMemo(() => partitionSpans(events), [events]);
+
+  const handleCopyMermaid = async () => {
+    const text = formatMermaidDiagram(events, nodes);
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy Mermaid sequence diagram:", err);
+    }
+  };
 
   // Clamped for the same reason as the timeline: `height = span × vScale`, and
   // an unbounded `t` in a capsule would otherwise size the SVG into the tens of
@@ -69,6 +140,14 @@ export function SequenceDiagram({
           />
           &nbsp;<code>{vScale.toFixed(1)}px/ms</code>
         </label>
+        <button
+          type="button"
+          onClick={handleCopyMermaid}
+          className="copy-btn"
+          title="Export sequence diagram as GitHub-compatible Mermaid syntax"
+        >
+          {copied ? "Copied!" : "Copy as Mermaid"}
+        </button>
         <span className="hint">solid = delivered · dashed-red ✕ = dropped · ghosted = duplicated</span>
       </div>
 
