@@ -24,6 +24,7 @@ export interface NetworkConfig {
   maxLatency: number; // ms
   dropProb: number; // 0..1 — honored by @sx4im/chronos-net's SimNetwork; ignored by BasicNetwork
   dupProb: number; // 0..1 — honored by @sx4im/chronos-net's SimNetwork; ignored by BasicNetwork
+  corruptProb?: number; // 0..1 — honored by @sx4im/chronos-net's SimNetwork; ignored by BasicNetwork
 }
 
 export const DEFAULT_NETWORK: NetworkConfig = {
@@ -31,6 +32,7 @@ export const DEFAULT_NETWORK: NetworkConfig = {
   maxLatency: 50,
   dropProb: 0,
   dupProb: 0,
+  corruptProb: 0,
 };
 
 /** Per-destination message handler. Wired by the Simulator for each node. */
